@@ -25,7 +25,7 @@ namespace ConsoleApp3
                 for (int i = 1; i <= 3; ++i)
                 {
                     producers[0].Add(i);
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                 }
                 producers[0].CompleteAdding();
             });
@@ -35,7 +35,7 @@ namespace ConsoleApp3
                 for (int i = 4; i <= 6; ++i)
                 {
                     producers[1].Add(i);
-                    Thread.Sleep(150);
+                    Thread.Sleep(1500);
                 }
                 producers[1].CompleteAdding();
             });
@@ -46,11 +46,11 @@ namespace ConsoleApp3
                 for (int i = 7; i <= 9; ++i)
                 {
                     producers[2].Add(i);
-                    Thread.Sleep(200);
+                    Thread.Sleep(1950);
                 }
                 producers[2].CompleteAdding();
             });
-            
+
             Task consumerThread = Task.Factory.StartNew(() =>
             {
                 while (!producers[0].IsCompleted || !producers[1].IsCompleted || !producers[2].IsCompleted)
@@ -63,7 +63,7 @@ namespace ConsoleApp3
                         nums[j] = item;
                         j++;
                     }
-                }    
+                }
             });
 
             Task.WaitAll(t1, t2, t3, consumerThread);
