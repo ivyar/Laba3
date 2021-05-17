@@ -13,8 +13,7 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-            var a = new Consumer();
-            a.FunctionConsumer();
+            Console.ReadKey();
         }
     }
 }

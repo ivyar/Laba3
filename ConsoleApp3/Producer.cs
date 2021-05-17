@@ -7,7 +7,7 @@ namespace ConsoleApp3
 {
     public class Producer
     {
-        public BlockingCollection<int>[] producers = new BlockingCollection<int>[3];
+        private BlockingCollection<int>[] producers = new BlockingCollection<int>[3];
         public Producer()
         {
             producers[0] = new BlockingCollection<int>(boundedCapacity: 3);
@@ -15,7 +15,24 @@ namespace ConsoleApp3
             producers[2] = new BlockingCollection<int>(boundedCapacity: 3);
         }
 
-        public void FunctionProducer()
+        public void StartProducing(int[] nums)
+        {
+            var j = 0;
+            FunctionProducer();
+            while (!producers[0].IsCompleted || !producers[1].IsCompleted || !producers[2].IsCompleted)
+            {
+                int item;
+                BlockingCollection<int>.TryTakeFromAny(producers, out item, TimeSpan.FromSeconds(1));
+                if (item != default(int))
+                {
+                    Console.WriteLine(item);
+                    nums[j] = item;
+                    j++;
+                }
+            }
+        }
+
+        private void FunctionProducer()
         {
             Task t1 = Task.Factory.StartNew(() =>
             {
