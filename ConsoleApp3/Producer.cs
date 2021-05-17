@@ -5,21 +5,18 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp3
 {
-    public class ProducerConsumer
+    public class Producer
     {
-        BlockingCollection<int>[] producers = new BlockingCollection<int>[3];
-        public ProducerConsumer()
+        public BlockingCollection<int>[] producers = new BlockingCollection<int>[3];
+        public Producer()
         {
             producers[0] = new BlockingCollection<int>(boundedCapacity: 3);
             producers[1] = new BlockingCollection<int>(boundedCapacity: 3);
             producers[2] = new BlockingCollection<int>(boundedCapacity: 3);
         }
 
-        public int[] Function()
+        public void FunctionProducer()
         {
-            int j = 0;
-            int[] nums = new int[9];
-
             Task t1 = Task.Factory.StartNew(() =>
             {
                 for (int i = 1; i <= 3; ++i)
@@ -51,24 +48,7 @@ namespace ConsoleApp3
                 producers[2].CompleteAdding();
             });
 
-            Task consumerThread = Task.Factory.StartNew(() =>
-            {
-                while (!producers[0].IsCompleted || !producers[1].IsCompleted || !producers[2].IsCompleted)
-                {
-                    int item;
-                    BlockingCollection<int>.TryTakeFromAny(producers, out item, TimeSpan.FromSeconds(1));
-                    if (item != default(int))
-                    {
-                        Console.WriteLine(item);
-                        nums[j] = item;
-                        j++;
-                    }
-                }
-            });
-
-            Task.WaitAll(t1, t2, t3, consumerThread);
-
-            return nums;
+            Task.WaitAll(t1, t2, t3);
         }
     }
 }

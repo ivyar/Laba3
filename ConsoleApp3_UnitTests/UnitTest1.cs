@@ -11,8 +11,7 @@ namespace ConsoleApp3_UnitTests
         [TestMethod]
         public void TestMethod1()
         {
-            var a = new ProducerConsumer();
-            var b = a.Function();
+            var a = new Consumer();
             Thread.Sleep(5000);
             int[] expected = new int[9];
             expected[0] = 1;
@@ -24,7 +23,7 @@ namespace ConsoleApp3_UnitTests
             expected[6] = 3;
             expected[7] = 6;
             expected[8] = 9;
-            Array.Equals(expected, b);
+            Array.Equals(expected, a.FunctionConsumer());
         }
     }
 }

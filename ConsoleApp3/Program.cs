@@ -13,8 +13,8 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-            var a = new ProducerConsumer();
-            a.Function();
+            var a = new Consumer();
+            a.FunctionConsumer();
         }
     }
 }
